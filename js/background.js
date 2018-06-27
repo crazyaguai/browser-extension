@@ -18,7 +18,7 @@ chrome.contextMenus.create({
     }
 });
 
-//bg接收来自contentscript和popus的消息
+//bg接收来自contentscript和popup的消息
 chrome.runtime.onConnect.addListener(function (port) {
     port.onMessage.addListener(function (msg) {
         if (msg.src === 'contentScript') {
@@ -30,7 +30,7 @@ chrome.runtime.onConnect.addListener(function (port) {
 })
 
 
-//bg或者popus主动发消息给content
+//bg或者popup主动发消息给content
 function sendMessageToContentScript(data, callback) {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, data, function (response) {
@@ -43,7 +43,7 @@ function sendMessageToContentScript(data, callback) {
 //     console.log('来自content的回复：' + response);
 // });
 
-//调用popus的方法(popus打开前提下)
+//调用popup的方法(popup打开前提下)
 var views = chrome.extension.getViews({type:'popup'});
 if(views.length > 0) {
     console.log(views[0].location.href);
@@ -55,7 +55,7 @@ function FUN(data) {
 
 
 
-//bg主动发消息给popus(短连接)
+//bg主动发消息给popup(短连接)
 setTimeout(()=>{
     chrome.runtime.sendMessage({data:444555666},(res)=>{
         console.log(res)
